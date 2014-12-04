@@ -4,8 +4,8 @@ Color.hex2rgb = function(hex) {
     if (hex[0] == '#') {
         hex = hex.substr(1);
     }
-    var shortHexRe = /^[0-9a-fA-F]{3}$/;
-    var longHexRe = /^[0-9a-fA-F]{6}$/;
+    var shortHexRe = /^[0-9a-f]{3}$/i;
+    var longHexRe = /^[0-9a-f]{6}$/i;
     if (shortHexRe.test(hex)) {
         hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
     }
@@ -16,7 +16,7 @@ Color.hex2rgb = function(hex) {
         var b = intRepr & 255;
         return 'rgb(' + r + ', ' + g + ', ' + b + ')';
     }
-    else return null;
+    return null;
 }
 
 Color.rgb2hex = function() {
@@ -26,6 +26,7 @@ Color.rgb2hex = function() {
         var g = arguments[1];
         var b = arguments[2];
     }
+
     else if (arguments.length == 1) {
         //assuming "  rgb(r, g, b) " here
         var rgb = arguments[0];
@@ -49,5 +50,6 @@ Color.rgb2hex = function() {
             }
         }
     }
+    else return null;
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
