@@ -5,6 +5,8 @@
     };
 
     Color.fn = Color.prototype = {
+
+        //Constructor for the Color object
         init: function(color) {
 
             if (/^[a-z]+$/i.test(color)) {
@@ -77,12 +79,18 @@
             }
             return this;
         },
+
+        //Return the `#rrggbb` representation of the color
         toHex: function() {
             return "#" + ((1 << 24) + (this.r << 16) + (this.g << 8) + this.b).toString(16).slice(1);
         },
+
+        //Return the `rgb(r, g, b)` representation of the color
         toRGB: function() {
             return 'rgb(' + this.r + ', ' + this.g + ', ' + this.b + ')';
         },
+
+        //Lighten the color by a passed factor or by 0.25
         lighten: function() {
 
             var factor = (typeof arguments[0] === 'number') ? arguments[0] : 0.25;
@@ -97,16 +105,14 @@
                 return (lighterComponent > 255) ? 255 : lighterComponent;
             }
 
-            //var newR = Math.ceil(factor * (this.r || 1));
-            //var newG = Math.ceil(factor * (this.g || 1));
-            //var newB = Math.ceil(factor * (this.b || 1));
-
             this.r = lightenComponent(this.r);
             this.g = lightenComponent(this.g);
             this.b = lightenComponent(this.b);
 
             return this;
         },
+
+        //Darken the color by a passed factor or by 0.25
         darken: function() {
             var factor = (typeof arguments[0] === 'number') ? arguments[0] : 0.25;
             factor = 1 + factor;
@@ -124,11 +130,20 @@
             this.b = darkenComponent(this.b);
 
             return this;
+        },
+
+        //Generates a crude complement of the color in `RGB` space
+        complement: function() {
+            this.r = 255 - this.r;
+            this.g = 255 - this.g;
+            this.b = 255 - this.b;
+            return this;
         }
     }
 
     Color.fn.init.prototype = Color.fn;
 
+    //Expose **Color** as `window.Color` and `window._c`
     return (window._c = window.Color = Color);
 
 })();
